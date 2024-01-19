@@ -1,24 +1,43 @@
 import { useState, ChangeEvent, FormEvent } from "react";
+import OtpInput from "./otp-input";
+const phoneNumberRegex = /^\d{10}$/;
 
 const PhoneOtpForm = () => {
     const [phoneNumber, setPhoneNumber] = useState<string>("");
-    const handlePhoneNumberChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const [showOtp, setShowOtp] = useState<boolean>(false);
+    const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
         setPhoneNumber(event.target.value);
     }
     const handlePhoneNumberSubmit = (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
+        if (!phoneNumberRegex.test(phoneNumber)) {
+            alert(`Invalid Phone Number`);
+            return;
+        }
+        // call api
+        // show otp field
+        setShowOtp(true);
     }
+    const handleOtpSubmit = (otp: string) => {
+      console.log(`Login successful with OTP: ${otp}`);
+    };
   return (
       <div>
-          <form onSubmit={handlePhoneNumberSubmit}>
+          {!showOtp ?
+              (<form onSubmit={handlePhoneNumberSubmit}>
               <input
                   type="text"
                   placeholder="Phone"
                   value={phoneNumber}
-                  onChange={handlePhoneNumberChange}
+                  onChange={handleChange}
               />
               <button type="submit">Submit</button>
-          </form>
+              </form>)
+              :
+              (<div>
+                  <p>Enter Otp</p>
+                  <OtpInput length={4} handleSubmit={handleOtpSubmit}/>
+              </div>)}
     </div>
   )
 }   
