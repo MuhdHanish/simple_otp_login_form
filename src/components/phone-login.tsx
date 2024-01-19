@@ -19,6 +19,7 @@ const PhoneOtpForm = () => {
         setShowOtp(true);
     }
     const handleOtpSubmit = (otp: string) => {
+      // Implement your OTP verification logic here
       console.log(`Login successful with OTP: ${otp}`);
     };
   return (
